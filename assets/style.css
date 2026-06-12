@@ -1,0 +1,44 @@
+.logo, .footer-logo {
+    height: 70px;
+    border-radius: 50%;
+}
+
+i {
+    color: black;
+}
+
+#heroCarousel img{
+    height: 600px;
+    object-fit: cover;
+}
+
+.storia{
+    background: #f8f6ef;
+}
+
+.storia .container{
+    max-width: 850px;
+    background: white;
+    padding: 60px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.1);
+}
+
+.storia h2{
+    color: #2e5b2f;
+    font-weight: 700;
+}
+
+.storia .lead{
+    font-size: 1.3rem;
+}
+
+.card-hover{
+    transition: .3s ease;
+    overflow: hidden;
+}
+
+.card-hover:hover{
+    transform: scale(1.04);
+    box-shadow: 0 20px 40px rgba(0,0,0,.2) !important;
+}

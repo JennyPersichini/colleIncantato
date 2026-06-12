@@ -36,13 +36,12 @@
     </section>
 
     <!-- Storia -->
-    <section class="py-5">
-
+    <section class="storia py-5">
         <div class="container text-center">
 
-            <h2 class="mb-3">Benvenuti nel nostro agriturismo</h2>
+            <h2 class="mb-4">Benvenuti nel nostro agriturismo</h2>
 
-            <p class="lead text-muted">
+            <p class="lead">
                 Un luogo dove tradizione, natura e sapori autentici si incontrano.
             </p>
 
@@ -56,7 +55,6 @@
             </a>
 
         </div>
-
     </section>
 
     <!-- Eventi -->
@@ -70,9 +68,9 @@
 
                 <div class="col-md-4">
 
-                    <div class="card shadow-sm h-100">
+                    <div class="card card-hover shadow-sm h-100">
 
-                        <img src="assets/images/evento1.jpg" class="card-img-top" alt="">
+                        <img src="assets/images/degustazione.png" class="card-img-top" alt="">
 
                         <div class="card-body">
                             <h5>Degustazione vini</h5>
@@ -85,9 +83,9 @@
 
                 <div class="col-md-4">
 
-                    <div class="card shadow-sm h-100">
+                    <div class="card card-hover shadow-sm h-100">
 
-                        <img src="assets/images/evento2.jpg" class="card-img-top" alt="">
+                        <img src="assets/images/caseificio.png" class="card-img-top" alt="">
 
                         <div class="card-body">
                             <h5>Laboratorio formaggi</h5>
@@ -100,9 +98,9 @@
 
                 <div class="col-md-4">
 
-                    <div class="card shadow-sm h-100">
+                    <div class="card card-hover shadow-sm h-100">
 
-                        <img src="assets/images/evento3.jpg" class="card-img-top" alt="">
+                        <img src="assets/images/vigneti.png" class="card-img-top" alt="">
 
                         <div class="card-body">
                             <h5>Visita ai vigneti</h5>
@@ -120,81 +118,8 @@
     </section>
 
     <!-- Prenotazioni -->
-    <section class="py-5 bg-light">
-
-        <div class="container">
-
-            <h2 class="text-center mb-3">Prenota la tua esperienza</h2>
-
-            <p class="text-center text-muted mb-5">
-                Scegli tra visite, attività in fattoria oppure pranzo e cena con prodotti tipici.
-            </p>
-
-            <div class="row justify-content-center">
-
-                <div class="col-lg-8">
-
-                    <form class="p-4 bg-white shadow rounded">
-
-                        <div class="row g-3">
-
-                            <!-- Nome -->
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="Nome" required>
-                            </div>
-
-                            <!-- Email -->
-                            <div class="col-md-6">
-                                <input type="email" class="form-control" placeholder="Email" required>
-                            </div>
-
-                            <!-- Data -->
-                            <div class="col-md-6">
-                                <input type="date" class="form-control" required>
-                            </div>
-
-                            <!-- Persone -->
-                            <div class="col-md-6">
-                                <input type="number" class="form-control" placeholder="Numero persone" required>
-                            </div>
-
-                            <!-- Tipo prenotazione -->
-                            <div class="col-12">
-                                <label class="form-label fw-bold">Tipo di prenotazione</label>
-
-                                <select class="form-select" required>
-                                    <option value="">Seleziona un'opzione</option>
-                                    <option value="esperienza">Esperienza / Attività in fattoria</option>
-                                    <option value="pranzo">Pranzo</option>
-                                    <option value="cena">Cena</option>
-                                </select>
-                            </div>
-
-                            <!-- Messaggio -->
-                            <div class="col-12">
-                                <textarea class="form-control" rows="4"
-                                        placeholder="Richieste particolari (menu, allergie, ecc.)"></textarea>
-                            </div>
-
-                            <!-- Button -->
-                            <div class="col-12 text-center">
-                                <button type="submit" class="btn btn-success px-5">
-                                    Prenota ora
-                                </button>
-                            </div>
-
-                        </div>
-
-                    </form>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
+    <?php include 'prenotazione.php'?>
+    
     <!-- Prodotti -->
     <section class="py-5 bg-light">
 
@@ -206,8 +131,8 @@
 
                 <div class="col-md-3">
 
-                    <div class="card h-100 shadow-sm">
-                        <img src="assets/images/vino.jpg" class="card-img-top" alt="">
+                    <div class="card card-hover h-100 shadow-sm">
+                        <img src="assets/images/vino.png" class="card-img-top" alt="">
                         <div class="card-body text-center">
                             <h5>Vini</h5>
                             <p class="text-muted">Vini rossi e bianchi della tradizione.</p>
@@ -218,8 +143,8 @@
 
                 <div class="col-md-3">
 
-                    <div class="card h-100 shadow-sm">
-                        <img src="assets/images/olio.jpg" class="card-img-top" alt="">
+                    <div class="card card-hover h-100 shadow-sm">
+                        <img src="assets/images/olio.png" class="card-img-top" alt="">
                         <div class="card-body text-center">
                             <h5>Olio EVO</h5>
                             <p class="text-muted">Spremitura a freddo di alta qualità.</p>
@@ -230,8 +155,8 @@
 
                 <div class="col-md-3">
 
-                    <div class="card h-100 shadow-sm">
-                        <img src="assets/images/formaggi.jpg" class="card-img-top" alt="">
+                    <div class="card card-hover h-100 shadow-sm">
+                        <img src="assets/images/formaggi.png" class="card-img-top" alt="">
                         <div class="card-body text-center">
                             <h5>Formaggi</h5>
                             <p class="text-muted">Lavorazione artigianale locale.</p>
@@ -242,8 +167,8 @@
 
                 <div class="col-md-3">
 
-                    <div class="card h-100 shadow-sm">
-                        <img src="assets/images/miele.jpg" class="card-img-top" alt="">
+                    <div class="card card-hover h-100 shadow-sm">
+                        <img src="assets/images/miele.png" class="card-img-top" alt="">
                         <div class="card-body text-center">
                             <h5>Miele</h5>
                             <p class="text-muted">Produzione naturale e biologica.</p>
