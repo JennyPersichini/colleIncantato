@@ -47,6 +47,7 @@ function currentUser(): ?array
 
             'id' => $_SESSION['user_id'],
             'name' => $_SESSION['user_name'] ?? '',
+            'email' => $_SESSION['user_email'] ?? '',
             'role' => $_SESSION['user_role'] ?? 'client',
 
 
