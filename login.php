@@ -44,10 +44,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Salva i dati in sessione
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['name'];
+            $_SESSION['user_email'] = $user['email'];
             $_SESSION['user_role'] = $user['role'];
 
-            // Reindirizza alla dashboard
-            header('Location: dashboard.php');
+            // Reindirizza in base al ruolo
+            if ($user['role'] === 'admin') {
+
+                header('Location: admin.php');
+
+            } else {
+
+                header('Location: dashboard.php');
+
+            }
+
             exit;
         }
 

@@ -23,7 +23,7 @@ function requireAdmin(): void
 
     if(($_SESSION['user_role'] ?? '') !== 'admin'){
 
-        header('Location : index.php');
+        header('Location: index.php');
         exit;
 
     }
@@ -53,6 +53,17 @@ function currentUser(): ?array
 
     ];
 
+}
+
+function isAdmin(): bool
+{
+    if (session_status() === PHP_SESSION_NONE) {
+
+        session_start();
+
+    }
+
+    return ($_SESSION['user_role'] ?? '') === 'admin';
 }
 
 function logout(): void

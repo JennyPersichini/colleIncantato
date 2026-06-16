@@ -10,6 +10,7 @@ include 'header.php';
 
 ?>
 
+
 <section class="py-5">
 
     <div class="container">
@@ -25,7 +26,7 @@ include 'header.php';
 
                         <!-- FOTO PROFILO -->
                         <img
-                            src="assets/images/user.jpg"
+                            src="assets/images/avatar.png"
                             class="rounded-circle img-fluid mb-3"
                             style="width:150px;height:150px;object-fit:cover;"
                             alt="Profilo">
