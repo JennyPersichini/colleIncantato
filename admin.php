@@ -8,7 +8,6 @@ require_once __DIR__ . '/classes/Product.php';
 
 $user = currentUser();
 
-// DATI DA CLASSI (non query dirette)
 $prenotazioni = Booking::findAll();
 $prodotti = Product::findAll();
 

@@ -147,8 +147,4 @@
 
 </section>
 
-
-<!-- PRENOTAZIONI -->
-<?php include 'prenotazione.php'?>
-
 <?php include 'footer.php'?>

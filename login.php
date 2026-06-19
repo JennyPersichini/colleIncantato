@@ -54,11 +54,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             } else {
 
-                header('Location: dashboard.php');
+                header('Location: index.php');
 
             }
 
             exit;
+
+
         }
 
         $errors = 'Credenziali non valide.';

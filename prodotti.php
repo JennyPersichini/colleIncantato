@@ -12,7 +12,7 @@ $stmt = $pdo->query("
 
 $prodotti = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-include 'header.php';
+include 'headerLoad.php';
 
 ?>
 

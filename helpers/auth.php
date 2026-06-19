@@ -1,6 +1,6 @@
 <?php
 
-
+// START SESSION SICURO
 function startSession(): void
 {
     if (session_status() === PHP_SESSION_NONE) {
@@ -9,17 +9,17 @@ function startSession(): void
 }
 
 
-// UTENTE CORRENTE
+// UTENTE
 function currentUser(): ?array
 {
     startSession();
 
-    if (!isset($_SESSION['user_id'])) {
+    if (empty($_SESSION['user_id'])) {
         return null;
     }
 
     return [
-        'id'    => $_SESSION['user_id'],
+        'id'    => (int) $_SESSION['user_id'],
         'name'  => $_SESSION['user_name'] ?? '',
         'email' => $_SESSION['user_email'] ?? '',
         'role'  => $_SESSION['user_role'] ?? 'client',
@@ -32,8 +32,7 @@ function requireLogin(): void
 {
     startSession();
 
-    if (!isset($_SESSION['user_id'])) {
-
+    if (empty($_SESSION['user_id'])) {
         header('Location: login.php');
         exit;
     }
@@ -43,10 +42,10 @@ function requireLogin(): void
 // SOLO ADMIN
 function requireAdmin(): void
 {
+    startSession();
     requireLogin();
 
     if (($_SESSION['user_role'] ?? '') !== 'admin') {
-
         header('Location: index.php');
         exit;
     }
@@ -57,7 +56,7 @@ function isAdmin(): bool
 {
     startSession();
 
-    return ($_SESSION['user_role'] ?? '') === 'admin';
+    return (($_SESSION['user_role'] ?? '') === 'admin');
 }
 
 
@@ -67,6 +66,22 @@ function logout(): void
     startSession();
 
     $_SESSION = [];
+
+    if (ini_get('session.use_cookies')) {
+
+        $params = session_get_cookie_params();
+
+        setcookie(
+            session_name(),
+            '',
+            time() - 3600,
+            $params['path'],
+            $params['domain'],
+            $params['secure'],
+            $params['httponly']
+        );
+    }
+
     session_destroy();
 
     header('Location: index.php');

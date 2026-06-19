@@ -5,17 +5,15 @@ require_once __DIR__ . '/Db.php';
 class Booking
 {
 
-    // CERCA PRENOTAZIONE PER ID
+    // TROVA PRENOTAZIONE PER ID
     public static function findById(int $id): ?array
     {
         $pdo = Db::connect();
 
         $stmt = $pdo->prepare(
-
             'SELECT *
              FROM prenotazioni
              WHERE id = :id'
-
         );
 
         $stmt->execute([
@@ -28,7 +26,7 @@ class Booking
     }
 
 
-    // CREA PRENOTAZIONE
+    // CREA PRENOTAZIONE (CON CONTROLLO POSTI)
     public static function create(
         string $nome,
         string $email,
@@ -37,21 +35,24 @@ class Booking
         int $numeroPersone,
         string $messaggio = '',
         string $stato = 'in_attesa'
-    ): ?int
-    {
+    ): ?int {
+
         $pdo = Db::connect();
 
-        $stmt = $pdo->prepare(
+        // CONTROLLO DISPONIBILITÀ PRIMA DI INSERIRE
+        if (!self::checkAvailability($dataEvento, $tipo, $numeroPersone)) {
+            throw new Exception("Posti esauriti per questa data/tipologia");
+        }
 
+        // INSERIMENTO
+        $stmt = $pdo->prepare(
             'INSERT INTO prenotazioni
             (nome, email, data_evento, tipo, numero_persone, messaggio, stato)
             VALUES
             (:nome, :email, :data_evento, :tipo, :numero_persone, :messaggio, :stato)'
-
         );
 
         $stmt->execute([
-
             ':nome' => $nome,
             ':email' => $email,
             ':data_evento' => $dataEvento,
@@ -59,10 +60,29 @@ class Booking
             ':numero_persone' => $numeroPersone,
             ':messaggio' => $messaggio,
             ':stato' => $stato
-
         ]);
 
-        return (int)$pdo->lastInsertId();
+        return (int) $pdo->lastInsertId();
+    }
+
+
+    // CONTROLLO LIMITE 20 POSTI
+    public static function checkAvailability($data, $tipo, $persone): bool
+    {
+        $pdo = Db::connect();
+
+        $stmt = $pdo->prepare("
+            SELECT COALESCE(SUM(numero_persone), 0) as totale
+            FROM prenotazioni
+            WHERE data_evento = ?
+            AND tipo = ?
+            AND stato != 'annullato'
+        ");
+
+        $stmt->execute([$data, $tipo]);
+        $totale = (int) $stmt->fetchColumn();
+
+        return ($totale + $persone) <= 20;
     }
 
 
@@ -72,11 +92,9 @@ class Booking
         $pdo = Db::connect();
 
         $stmt = $pdo->query(
-
             'SELECT *
              FROM prenotazioni
              ORDER BY created_at DESC'
-
         );
 
         return $stmt->fetchAll();
@@ -89,12 +107,10 @@ class Booking
         $pdo = Db::connect();
 
         $stmt = $pdo->prepare(
-
             'SELECT *
              FROM prenotazioni
              WHERE email = :email
              ORDER BY data_evento DESC'
-
         );
 
         $stmt->execute([
@@ -111,11 +127,9 @@ class Booking
         $pdo = Db::connect();
 
         $stmt = $pdo->prepare(
-
             'SELECT *
              FROM prenotazioni
              WHERE data_evento = :data'
-
         );
 
         $stmt->execute([
@@ -126,27 +140,20 @@ class Booking
     }
 
 
-    // AGGIORNA STATO PRENOTAZIONE
-    public static function updateStatus(
-        int $id,
-        string $stato
-    ): bool
+    // AGGIORNA STATO
+    public static function updateStatus(int $id, string $stato): bool
     {
         $pdo = Db::connect();
 
         $stmt = $pdo->prepare(
-
             'UPDATE prenotazioni
              SET stato = :stato
              WHERE id = :id'
-
         );
 
         return $stmt->execute([
-
             ':stato' => $stato,
             ':id' => $id
-
         ]);
     }
 
@@ -160,12 +167,11 @@ class Booking
         string $tipo,
         int $numeroPersone,
         string $messaggio
-    ): bool
-    {
+    ): bool {
+
         $pdo = Db::connect();
 
         $stmt = $pdo->prepare(
-
             'UPDATE prenotazioni
              SET nome = :nome,
                  email = :email,
@@ -174,11 +180,9 @@ class Booking
                  numero_persone = :numero_persone,
                  messaggio = :messaggio
              WHERE id = :id'
-
         );
 
         return $stmt->execute([
-
             ':nome' => $nome,
             ':email' => $email,
             ':data_evento' => $dataEvento,
@@ -186,41 +190,36 @@ class Booking
             ':numero_persone' => $numeroPersone,
             ':messaggio' => $messaggio,
             ':id' => $id
-
         ]);
     }
 
 
-    // CONTA PRENOTAZIONI
+    // CONTA TUTTE
     public static function countAll(): int
     {
         $pdo = Db::connect();
 
         $stmt = $pdo->query(
-
             'SELECT COUNT(*) AS total
              FROM prenotazioni'
-
         );
 
-        return (int)$stmt->fetch()['total'];
+        return (int) $stmt->fetch()['total'];
     }
 
 
-    // CONTA PRENOTAZIONI IN ATTESA
+    // CONTA IN ATTESA
     public static function countPending(): int
     {
         $pdo = Db::connect();
 
         $stmt = $pdo->query(
-
             "SELECT COUNT(*) AS total
              FROM prenotazioni
              WHERE stato = 'in_attesa'"
-
         );
 
-        return (int)$stmt->fetch()['total'];
+        return (int) $stmt->fetch()['total'];
     }
 
 
@@ -230,15 +229,12 @@ class Booking
         $pdo = Db::connect();
 
         $stmt = $pdo->prepare(
-
             'DELETE FROM prenotazioni
              WHERE id = :id'
-
         );
 
         return $stmt->execute([
             ':id' => $id
         ]);
     }
-
 }
