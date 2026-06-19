@@ -1,269 +1,298 @@
 <?php
 
 require_once __DIR__ . '/helpers/auth.php';
-
 requireAdmin();
 
-
+require_once __DIR__ . '/classes/Booking.php';
+require_once __DIR__ . '/classes/Product.php';
 
 $user = currentUser();
 
-?>
+// DATI DA CLASSI (non query dirette)
+$prenotazioni = Booking::findAll();
+$prodotti = Product::findAll();
 
+?>
 
 <!DOCTYPE html>
 <html lang="it">
 
-<head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dashboard Admin</title>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    </head>
 
-    <title>Dashboard Admin</title>
+    <body class="bg-light">
 
-    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <div class="container-fluid">
 
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+        <div class="row">
 
-</head>
+            <!-- SIDEBAR -->
+            <div class="col-lg-2 bg-dark text-white min-vh-100">
 
-<body class="bg-light">
+                <div class="text-center py-4">
 
-<div class="container-fluid">
+                    <img src="assets/images/logo2.png" class="rounded-circle mb-3" width="120">
 
-    <div class="row">
+                    <h4><?= htmlspecialchars($user['name']) ?></h4>
 
-        <!-- SIDEBAR -->
-        <div class="col-lg-2 bg-dark text-white min-vh-100">
+                    <p class="text-secondary">Amministratore</p>
 
-            <div class="text-center py-4">
+                    <hr>
 
-                <img src="assets/images/logo2.png"
-                     class="rounded-circle mb-3"
-                     width="120">
+                </div>
 
-                <h4>
-                    <?= htmlspecialchars($user['name']) ?>
-                </h4>
+                <ul class="nav flex-column">
 
-                <p class="text-secondary">
-                    Amministratore
-                </p>
+                    <li class="nav-item mb-2">
+                        <a href="admin.php" class="nav-link text-white">
+                            <i class="fa-solid fa-house"></i> Dashboard
+                        </a>
+                    </li>
 
-                <hr>
+                    <li class="nav-item mb-2">
+                        <a href="#prenotazioni" class="nav-link text-white">
+                            <i class="fa-regular fa-calendar"></i> Prenotazioni
+                        </a>
+                    </li>
+
+                    <li class="nav-item mb-2">
+                        <a href="#prodotti" class="nav-link text-white">
+                            <i class="fa-solid fa-wine-bottle"></i> Prodotti
+                        </a>
+                    </li>
+
+                    <li class="nav-item mt-5">
+                        <a href="logout.php" class="btn btn-light w-100">
+                            <i class="fa-solid fa-right-from-bracket"></i> Logout
+                        </a>
+                    </li>
+
+                </ul>
 
             </div>
 
-            <ul class="nav flex-column">
+            <!-- CONTENUTO -->
+            <div class="col-lg-10 p-5">
 
-                <li class="nav-item mb-2">
+                <h1 class="mb-5">Dashboard Amministratore</h1>
 
-                    <a href="admin.php" class="nav-link text-white">
+                <!-- CARD -->
+                <div class="row mb-5">
 
-                        <i class="fa-solid fa-house"></i>
-
-                        Dashboard
-
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item mb-2">
-
-                    <a href="#" class="nav-link text-white">
-
-                        <i class="fa-regular fa-calendar"></i>
-
-                        Prenotazioni
-
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item mb-2">
-
-                    <a href="#" class="nav-link text-white">
-
-                        <i class="fa-solid fa-wine-bottle"></i>
-
-                        Prodotti
-
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item mt-5">
-
-                    <a href="logout.php" class="btn btn-light w-100">
-
-                        <i class="fa-solid fa-right-from-bracket"></i>
-
-                        Logout
-
-                    </a>
-
-                </li>
-
-            </ul>
-
-        </div>
-
-
-        <!-- CONTENUTO -->
-        <div class="col-lg-10 p-5">
-
-            <h1 class="mb-5">
-
-                Dashboard Amministratore
-
-            </h1>
-
-
-            <!-- CARD -->
-            <div class="row mb-5">
-
-                <div class="col-md-6">
-
-                    <div class="card shadow-sm">
-
-                        <div class="card-body text-center">
-
-                            <h5>Prenotazioni</h5>
-
-                            <h2></h2>
-
+                    <div class="col-md-6">
+                        <div class="card shadow-sm">
+                            <div class="card-body text-center">
+                                <h5>Prenotazioni</h5>
+                                <h2><?= count($prenotazioni) ?></h2>
+                            </div>
                         </div>
+                    </div>
 
+                    <div class="col-md-6">
+                        <div class="card shadow-sm">
+                            <div class="card-body text-center">
+                                <h5>Prodotti</h5>
+                                <h2><?= count($prodotti) ?></h2>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
 
+                <!-- PRENOTAZIONI -->
+                <div class="card shadow-sm mb-5" id="prenotazioni">
 
-                <div class="col-md-6">
+                    <div class="card-body">
 
-                    <div class="card shadow-sm">
+                        <h3 class="mb-4">Prenotazioni Clienti</h3>
 
-                        <div class="card-body text-center">
+                        <table class="table table-hover align-middle">
 
-                            <h5>Prodotti</h5>
-
-                            <h2></h2>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- PRENOTAZIONI -->
-            <div class="card shadow-sm mb-5">
-
-                <div class="card-body">
-
-                    <h3 class="mb-4">
-
-                        Prenotazioni Clienti
-
-                    </h3>
-
-                    <table class="table table-hover">
-
-                        <thead>
-
+                            <thead>
                             <tr>
-
                                 <th>Cliente</th>
+                                <th>Email</th>
                                 <th>Data</th>
                                 <th>Tipo</th>
                                 <th>Persone</th>
                                 <th>Stato</th>
-
+                                <th>Azioni</th>
                             </tr>
+                            </thead>
 
-                        </thead>
+                            <tbody>
 
-                        <tbody>
+                            <?php if (count($prenotazioni) > 0): ?>
 
-                            <tr>
+                                <?php foreach ($prenotazioni as $p): ?>
 
-                                <td colspan="5" class="text-center text-muted">
+                                    <tr>
 
-                                    Nessuna prenotazione disponibile.
+                                        <td><?= htmlspecialchars($p['nome']) ?></td>
+                                        <td><?= htmlspecialchars($p['email']) ?></td>
+                                        <td><?= $p['data_evento'] ?></td>
+                                        <td><?= ucfirst($p['tipo']) ?></td>
+                                        <td><?= $p['numero_persone'] ?></td>
 
-                                </td>
+                                        <td>
+                                            <?php if ($p['stato'] === 'in_attesa'): ?>
+                                                <span class="badge bg-warning">In attesa</span>
+                                            <?php elseif ($p['stato'] === 'confermata'): ?>
+                                                <span class="badge bg-success">Confermata</span>
+                                            <?php else: ?>
+                                                <span class="badge bg-danger">Rifiutata</span>
+                                            <?php endif; ?>
+                                        </td>
 
-                            </tr>
+                                        <td>
 
-                         </tbody>
+                                            <a href="updateBookingStatus.php?id=<?= $p['id'] ?>&status=confermata"
+                                            class="btn btn-success btn-sm">
+                                                ✔
+                                            </a>
 
-                    </table>
+                                            <a href="updateBookingStatus.php?id=<?= $p['id'] ?>&status=rifiutata"
+                                            class="btn btn-danger btn-sm">
+                                                ✖
+                                            </a>
 
-                </div>
+                                        </td>
 
-            </div>
+                                    </tr>
 
+                                <?php endforeach; ?>
 
-            <!-- PRODOTTI -->
-            <div class="card shadow-sm">
+                            <?php else: ?>
 
-                <div class="card-body">
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted">
+                                        Nessuna prenotazione disponibile.
+                                    </td>
+                                </tr>
 
-                    <div class="d-flex justify-content-between mb-4">
+                            <?php endif; ?>
 
-                        <h3>
+                            </tbody>
 
-                            Prodotti
-
-                        </h3>
-
-                        <button class="btn btn-success">
-
-                            <i class="fa-solid fa-plus"></i>
-
-                            Aggiungi prodotto
-
-                        </button>
+                        </table>
 
                     </div>
 
+                </div>
 
-                    <table class="table table-striped">
+                <!-- PRODOTTI -->
+                <div class="card shadow-sm" id="prodotti">
 
-                        <thead>
+                    <div class="card-body">
 
-                        <tr>
+                        <div class="d-flex justify-content-between mb-4">
 
-                            <th>Nome</th>
-                            <th>Categoria</th>
-                            <th>Prezzo</th>
-                            <th>Azioni</th>
+                            <h3>Prodotti</h3>
 
-                        </tr>
+                            <a href="aggiungiProdotto.php" class="btn btn-success">
+                                <i class="fa-solid fa-plus"></i> Aggiungi prodotto
+                            </a>
 
-                        </thead>
+                        </div>
 
-                        <tbody>
+                        <table class="table table-striped align-middle">
 
+                            <thead>
                             <tr>
-
-                                    <td colspan="4" class="text-center text-muted">
-
-                                        Nessun prodotto disponibile.
-
-                                    </td>
-
+                                <th>Foto</th>
+                                <th>Nome</th>
+                                <th>Categoria</th>
+                                <th>Sottocategoria</th>
+                                <th>Quantità</th>
+                                <th>Stock</th>
+                                <th>Prezzo</th>
+                                <th>Stato</th>
+                                <th>Azioni</th>
                             </tr>
+                            </thead>
 
-                        </tbody>
+                            <tbody>
 
-                    </table>
+                            <?php if (count($prodotti) > 0): ?>
+
+                                <?php foreach ($prodotti as $p): ?>
+
+                                    <tr>
+
+                                        <!-- FOTO -->
+                                        <td>
+                                            <?php if (!empty($p['image_path'])): ?>
+                                                <img src="<?= htmlspecialchars($p['image_path']) ?>"
+                                                    style="width:60px;height:60px;object-fit:cover;border-radius:8px;">
+                                            <?php else: ?>
+                                                <span class="text-muted">No img</span>
+                                            <?php endif; ?>
+                                        </td>
+
+                                        <td><?= htmlspecialchars($p['name']) ?></td>
+                                        <td><?= htmlspecialchars($p['category']) ?></td>
+                                        <td><?= htmlspecialchars($p['subCategory']) ?></td>
+
+                                        <td><?= $p['quantity'] ?></td>
+
+                                        <td>
+                                            <?php if ($p['stock'] > 0): ?>
+                                                <span class="badge bg-primary"><?= $p['stock'] ?></span>
+                                            <?php else: ?>
+                                                <span class="badge bg-danger">Esaurito</span>
+                                            <?php endif; ?>
+                                        </td>
+
+                                        <td><?= number_format($p['price'], 2) ?> €</td>
+
+                                        <td>
+                                            <?php if ($p['disposability'] && $p['stock'] > 0): ?>
+                                                <span class="badge bg-success">Disponibile</span>
+                                            <?php else: ?>
+                                                <span class="badge bg-danger">Non disponibile</span>
+                                            <?php endif; ?>
+                                        </td>
+
+                                        <td>
+
+                                            <a href="modificaProdotto.php?id=<?= $p['id'] ?>"
+                                            class="btn btn-primary btn-sm">
+                                                <i class="fa-solid fa-pen"></i>
+                                            </a>
+
+                                            <a href="cancellaProdotto.php?id=<?= $p['id'] ?>"
+                                            class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Eliminare prodotto?')">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </a>
+
+                                        </td>
+
+                                    </tr>
+
+                                <?php endforeach; ?>
+
+                            <?php else: ?>
+
+                                <tr>
+                                    <td colspan="9" class="text-center text-muted">
+                                        Nessun prodotto disponibile.
+                                    </td>
+                                </tr>
+
+                            <?php endif; ?>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
 
                 </div>
 
@@ -273,9 +302,7 @@ $user = currentUser();
 
     </div>
 
-</div>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-<script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
+    </body>
 </html>

@@ -50,3 +50,8 @@ CREATE TABLE prenotazioni (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     
 ) ENGINE=InnoDB;
+
+ALTER TABLE `prodotti` 
+ADD `stock` INT NOT NULL DEFAULT '0' 
+AFTER `image_path`;
+

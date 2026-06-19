@@ -4,12 +4,15 @@ require_once __DIR__ . '/helpers/auth.php';
 
 requireLogin();
 
+require_once __DIR__ . '/classes/Booking.php';
+
 $user = currentUser();
+
+$prenotazioni = Booking::findByEmail($user['email']);
 
 include 'header.php';
 
 ?>
-
 
 <section class="py-5">
 
