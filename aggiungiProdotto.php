@@ -110,12 +110,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form method="POST" enctype="multipart/form-data" class="card p-4 shadow-sm">
 
          <!-- FOTO -->
+        <label class="form-label">Foto Prodotto</label>
         <input type="file"
             name="image"
             class="form-control mb-3"
             accept="image/*">
 
         <!-- NOME -->
+        <label class="form-label">Nome Prodotto</label>
         <input type="text"
             name="name"
             class="form-control mb-3"
@@ -123,25 +125,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             required>
 
         <!-- CATEGORIA -->
+        <label class="form-label">Categoria</label>
         <input type="text"
             name="category"
             class="form-control mb-3"
             placeholder="Categoria">
 
         <!-- SOTTOCATEGORIA -->
+        <label class="form-label">Sottocategoria</label>
         <input type="text"
             name="subCategory"
             class="form-control mb-3"
             placeholder="Sottocategoria">
 
         <!-- QUANTITÀ (litri / grammi) -->
+        <label class="form-label">Quantità</label>
         <input type="number"
             step="0.01"
             name="quantity"
             class="form-control mb-3"
-            placeholder="Quantità (es. 0.75 L / 500 g)">
+            placeholder="Quantità (es. 0.75 L / 5 kg)">
 
         <!-- STOCK -->
+        <label class="form-label">Stock</label>
         <input type="number"
             name="stock"
             class="form-control mb-3"
@@ -149,6 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             min="0">
 
         <!-- PREZZO -->
+        <label class="form-label">Prezzo</label>
         <input type="number"
             step="0.01"
             name="price"

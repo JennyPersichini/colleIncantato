@@ -114,52 +114,103 @@ $prodotti = Product::findAll();
                         <table class="table table-hover align-middle">
 
                             <thead>
+
                             <tr>
                                 <th>Cliente</th>
                                 <th>Email</th>
                                 <th>Data</th>
                                 <th>Tipo</th>
                                 <th>Persone</th>
+                                <th>Messaggio</th>
                                 <th>Stato</th>
                                 <th>Azioni</th>
                             </tr>
+
                             </thead>
 
                             <tbody>
 
-                            <?php if (count($prenotazioni) > 0): ?>
+                            <?php if (!empty($prenotazioni)): ?>
 
                                 <?php foreach ($prenotazioni as $p): ?>
 
                                     <tr>
 
-                                        <td><?= htmlspecialchars($p['nome']) ?></td>
-                                        <td><?= htmlspecialchars($p['email']) ?></td>
-                                        <td><?= $p['data_evento'] ?></td>
-                                        <td><?= ucfirst($p['tipo']) ?></td>
-                                        <td><?= $p['numero_persone'] ?></td>
+                                        <td>
+                                            <?= htmlspecialchars($p['nome']) ?>
+                                        </td>
 
                                         <td>
-                                            <?php if ($p['stato'] === 'in_attesa'): ?>
-                                                <span class="badge bg-warning">In attesa</span>
-                                            <?php elseif ($p['stato'] === 'confermata'): ?>
-                                                <span class="badge bg-success">Confermata</span>
-                                            <?php else: ?>
-                                                <span class="badge bg-danger">Rifiutata</span>
-                                            <?php endif; ?>
+                                            <?= htmlspecialchars($p['email']) ?>
+                                        </td>
+
+                                        <td>
+                                            <?= htmlspecialchars($p['data_evento']) ?>
+                                        </td>
+
+                                        <td>
+                                            <?= ucfirst($p['tipo']) ?>
+                                        </td>
+
+                                        <td>
+                                            <?= (int)$p['numero_persone'] ?>
+                                        </td>
+
+                                        <td>
+                                            <?= htmlspecialchars($p['messaggio'] ?: '-') ?>
                                         </td>
 
                                         <td>
 
-                                            <a href="updateBookingStatus.php?id=<?= $p['id'] ?>&status=confermata"
-                                            class="btn btn-success btn-sm">
-                                                ✔
-                                            </a>
+                                            <?php if ($p['stato'] === 'in_attesa'): ?>
 
-                                            <a href="updateBookingStatus.php?id=<?= $p['id'] ?>&status=rifiutata"
-                                            class="btn btn-danger btn-sm">
-                                                ✖
-                                            </a>
+                                                <span class="badge bg-warning text-dark">
+                                                    In attesa
+                                                </span>
+
+                                            <?php elseif ($p['stato'] === 'confermata'): ?>
+
+                                                <span class="badge bg-success">
+                                                    Confermata
+                                                </span>
+
+                                            <?php else: ?>
+
+                                                <span class="badge bg-danger">
+                                                    Rifiutata
+                                                </span>
+
+                                            <?php endif; ?>
+
+                                        </td>
+
+                                        <td>
+
+                                            <?php if ($p['stato'] === 'in_attesa'): ?>
+
+                                                <a
+                                                    href="updateBookingStatus.php?id=<?= $p['id'] ?>&status=confermata"
+                                                    class="btn btn-success btn-sm">
+
+                                                    <i class="fa-solid fa-check"></i>
+
+                                                </a>
+
+                                                <a
+                                                    href="updateBookingStatus.php?id=<?= $p['id'] ?>&status=rifiutata"
+                                                    class="btn btn-danger btn-sm">
+
+                                                    <i class="fa-solid fa-xmark"></i>
+
+                                                </a>
+
+                                            <?php else: ?>
+
+                                                <span class="text-muted">
+                                                    Nessuna azione
+                                                </span>
+
+                                            <?php endif; ?>
 
                                         </td>
 
@@ -170,9 +221,13 @@ $prodotti = Product::findAll();
                             <?php else: ?>
 
                                 <tr>
-                                    <td colspan="7" class="text-center text-muted">
+
+                                    <td colspan="8" class="text-center text-muted">
+
                                         Nessuna prenotazione disponibile.
+
                                     </td>
+
                                 </tr>
 
                             <?php endif; ?>
@@ -208,7 +263,7 @@ $prodotti = Product::findAll();
                                 <th>Nome</th>
                                 <th>Categoria</th>
                                 <th>Sottocategoria</th>
-                                <th>Quantità</th>
+                                <th>Quantità (Litri / kg)</th>
                                 <th>Stock</th>
                                 <th>Prezzo</th>
                                 <th>Stato</th>
